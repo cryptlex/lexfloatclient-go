@@ -1,4 +1,4 @@
-![Publish cryptlex.lexfloatclient package](https://github.com/cryptlex/lexfloatclient-go/workflows/Publish%20cryptlex.lexfloatclient%20package/badge.svg)
+[![Build package](https://github.com/cryptlex/lexfloatclient-go/actions/workflows/update-libs.yml/badge.svg)](https://github.com/cryptlex/lexfloatclient-go/actions/workflows/update-libs.yml)
 
 # lexfloatclient-go
 
