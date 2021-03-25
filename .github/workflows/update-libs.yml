@@ -1,0 +1,39 @@
+name: Update package libs
+
+on:
+  workflow_dispatch:
+    inputs:
+      libraryVersion:
+        description: 'Library Version'
+        required: true
+        default: ''
+      packageVersion:
+        description: 'Package Version'
+        required: true
+        default: ''
+
+jobs:
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: '^1.15.0'
+    - name: Update Library Version
+      run: |
+          sed -i '/libVersion :=/!b;c \ \ \ \ \ \ \libVersion :=  \"v${{ github.event.inputs.libraryVersion }}";' download_libs/download_libs.go  
+    - name: Download Native Libs
+      run: go run download_libs/download_libs.go
+    - name: Commit files
+      run: |
+        git add ./libs
+        git add ./download_libs/download_libs.go
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+        git commit -m "updated native libs" -a | exit 0
+        git tag v${{ github.event.inputs.packageVersion }}
+        git push & git push --tags
