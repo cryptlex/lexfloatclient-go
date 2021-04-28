@@ -3,8 +3,8 @@
 package lexfloatclient
 
 /*
-#cgo linux,!arm64 LDFLAGS: -Wl,-Bstatic -L${SRCDIR}/libs/linux_amd64 -lLexFloatClient -Wl,-Bdynamic -lm -lstdc++ -lpthread -lssl3 -lnss3 -lnspr4
-#cgo linux,arm64 LDFLAGS: -Wl,-Bstatic -L${SRCDIR}/libs/linux_arm64 -lLexFloatClient -Wl,-Bdynamic -lm -lstdc++ -lpthread -lssl3 -lnss3 -lnspr4
+#cgo linux,!arm64 LDFLAGS: -Wl,-Bstatic -L${SRCDIR}/libs/linux_amd64 -lLexFloatClient -Wl,-Bdynamic -lm -lstdc++ -lpthread
+#cgo linux,arm64 LDFLAGS: -Wl,-Bstatic -L${SRCDIR}/libs/linux_arm64 -lLexFloatClient -Wl,-Bdynamic -lm -lstdc++ -lpthread
 #cgo darwin LDFLAGS: -L${SRCDIR}/libs/darwin_universal -lLexFloatClient -lc++ -framework CoreFoundation -framework SystemConfiguration -framework Security
 #cgo windows LDFLAGS: -L${SRCDIR}/libs/windows_amd64 -lLexFloatClient
 #include "lexfloatclient/LexFloatClient.h"
