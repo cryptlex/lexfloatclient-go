@@ -116,6 +116,67 @@ func SetFloatingClientMetadata(key string, value string) int {
 	freeCString(cValue)
 	return int(status)
 }
+
+/*
+    FUNCTION: GetProductVersionName()
+
+    PURPOSE: Gets the product version name.
+
+    PARAMETERS:
+    * name - pointer to a buffer that receives the value of the string
+    * length - size of the buffer pointed to by the name parameter
+
+    RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_PRODUCT_VERSION_NOT_LINKED, LF_E_BUFFER_SIZE
+*/
+func GetProductVersionName(name *string) int {
+	var cName = getCArray()
+	status := C.GetProductVersionName(&cName[0], maxCArrayLength)
+	*name = ctoGoString(&cName[0])
+	return int(status)
+}
+
+/*
+    FUNCTION: GetProductVersionDisplayName()
+
+    PURPOSE: Gets the product version display name.
+
+    PARAMETERS:
+    * displayName - pointer to a buffer that receives the value of the string
+    * length - size of the buffer pointed to by the displayName parameter
+
+    RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_PRODUCT_VERSION_NOT_LINKED, LF_E_BUFFER_SIZE
+*/
+func GetProductVersionDisplayName(displayName *string) int {
+	var cDisplayName = getCArray()
+	status := C.GetProductVersionDisplayName(&cDisplayName[0], maxCArrayLength)
+	*displayName = ctoGoString(&cDisplayName[0])
+	return int(status)
+}
+
+/*
+    FUNCTION: GetProductVersionFeatureFlag()
+
+    PURPOSE: Gets the product version feature flag.
+
+    PARAMETERS:
+    * name - name of the feature flag
+    * enabled - pointer to the integer that receives the value - 0 or 1
+    * data - pointer to a buffer that receives the value of the string
+    * length - size of the buffer pointed to by the data parameter
+
+    RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_PRODUCT_VERSION_NOT_LINKED, LF_E_FEATURE_FLAG_NOT_FOUND, LF_E_BUFFER_SIZE
+*/
+func GetProductVersionFeatureFlag(name string, enabled *bool, data *string) int {
+    cName := goToCString(name)
+    var cEnabled C.uint
+    var cData = getCArray()
+    status := C.GetProductVersionFeatureFlag(cName, &cEnabled, &cData[0], maxCArrayLength)
+    freeCString(cName)
+    *enabled = cEnabled > 0
+    *data = ctoGoString(&cData[0])
+    return int(status)
+ }
+
 /*
     FUNCTION: GetHostLicenseMetadata()
 

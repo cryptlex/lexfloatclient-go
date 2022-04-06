@@ -64,6 +64,12 @@ const (
     // The meter attribute has reached it's usage limit.
     LF_E_METER_ATTRIBUTE_USES_LIMIT_REACHED int = 56
 
+    // No product version is linked with the license.
+	LF_E_PRODUCT_VERSION_NOT_LINKED int = 57
+
+	// The product version feature flag does not exist.
+	LF_E_FEATURE_FLAG_NOT_FOUND int = 58
+
     // IP address is not allowed.
     LF_E_IP int = 60
 
