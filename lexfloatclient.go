@@ -118,7 +118,7 @@ func SetFloatingClientMetadata(key string, value string) int {
 }
 
 /*
-    FUNCTION: GetProductVersionName()
+    FUNCTION: GetHostProductVersionName()
 
     PURPOSE: Gets the product version name.
 
@@ -128,15 +128,15 @@ func SetFloatingClientMetadata(key string, value string) int {
 
     RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_PRODUCT_VERSION_NOT_LINKED, LF_E_BUFFER_SIZE
 */
-func GetProductVersionName(name *string) int {
+func GetHostProductVersionName(name *string) int {
 	var cName = getCArray()
-	status := C.GetProductVersionName(&cName[0], maxCArrayLength)
+	status := C.GetHostProductVersionName(&cName[0], maxCArrayLength)
 	*name = ctoGoString(&cName[0])
 	return int(status)
 }
 
 /*
-    FUNCTION: GetProductVersionDisplayName()
+    FUNCTION: GetHostProductVersionDisplayName()
 
     PURPOSE: Gets the product version display name.
 
@@ -146,15 +146,15 @@ func GetProductVersionName(name *string) int {
 
     RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_PRODUCT_VERSION_NOT_LINKED, LF_E_BUFFER_SIZE
 */
-func GetProductVersionDisplayName(displayName *string) int {
+func GetHostProductVersionDisplayName(displayName *string) int {
 	var cDisplayName = getCArray()
-	status := C.GetProductVersionDisplayName(&cDisplayName[0], maxCArrayLength)
+	status := C.GetHostProductVersionDisplayName(&cDisplayName[0], maxCArrayLength)
 	*displayName = ctoGoString(&cDisplayName[0])
 	return int(status)
 }
 
 /*
-    FUNCTION: GetProductVersionFeatureFlag()
+    FUNCTION: GetHostProductVersionFeatureFlag()
 
     PURPOSE: Gets the product version feature flag.
 
@@ -166,11 +166,11 @@ func GetProductVersionDisplayName(displayName *string) int {
 
     RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_PRODUCT_VERSION_NOT_LINKED, LF_E_FEATURE_FLAG_NOT_FOUND, LF_E_BUFFER_SIZE
 */
-func GetProductVersionFeatureFlag(name string, enabled *bool, data *string) int {
+func GetHostProductVersionFeatureFlag(name string, enabled *bool, data *string) int {
     cName := goToCString(name)
     var cEnabled C.uint
     var cData = getCArray()
-    status := C.GetProductVersionFeatureFlag(cName, &cEnabled, &cData[0], maxCArrayLength)
+    status := C.GetHostProductVersionFeatureFlag(cName, &cEnabled, &cData[0], maxCArrayLength)
     freeCString(cName)
     *enabled = cEnabled > 0
     *data = ctoGoString(&cData[0])
