@@ -13,7 +13,7 @@ import (
 
 func main() {
 	baseURL := "https://dl.cryptlex.com/downloads/"
-      libVersion :=  "v4.7.1";
+      libVersion :=  "v4.7.4";
 	basePath := "./libs/"
 	fmt.Println("Downloading LexFloatClient libs " + libVersion + " ...")
 	url := baseURL + libVersion + "/LexFloatClient-Static-Mac.zip"
