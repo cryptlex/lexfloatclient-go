@@ -6,10 +6,10 @@ package lexfloatclient
 #include <stdio.h>
 
 // The gateway functions
-void licenseCallbackCgoGateway(int status)
+void floatingLicenseCallbackCgoGateway(int status)
 {
-	void licenseCallbackWrapper(int);
-	licenseCallbackWrapper(status);
+	void floatingLicenseCallbackWrapper(int);
+	floatingLicenseCallbackWrapper(status);
 }
 */
 import "C"
