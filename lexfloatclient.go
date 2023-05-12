@@ -9,7 +9,7 @@ package lexfloatclient
 #cgo windows LDFLAGS: -L${SRCDIR}/libs/windows_amd64 -lLexFloatClient
 #include "lexfloatclient/LexFloatClient.h"
 #include <stdlib.h>
-void licenseCallbackCgoGateway(int status);
+void floatingLicenseCallbackCgoGateway(int status);
 */
 import "C"
 import (
@@ -24,12 +24,12 @@ const (
 	LA_IN_MEMORY uint = 2
 )
 
-var licenseCallbackFuncion callbackType
+var floatingLicenseCallbackFunction callbackType
 
-//export licenseCallbackWrapper
-func licenseCallbackWrapper(status int) {
-	if licenseCallbackFuncion != nil {
-		licenseCallbackFuncion(status)
+//export floatingLicenseCallbackWrapper
+func floatingLicenseCallbackWrapper(status int) {
+	if floatingLicenseCallbackFunction != nil {
+		floatingLicenseCallbackFunction(status)
 	}
 }
 
@@ -88,8 +88,8 @@ func SetHostUrl(hostUrl string) int {
     RETURN CODES: LF_OK, LF_E_PRODUCT_ID
 */
 func SetFloatingLicenseCallback(callbackFunction func(int)) int {
-	status := C.SetFloatingLicenseCallback((C.CallbackType)(unsafe.Pointer(C.licenseCallbackCgoGateway)))
-	licenseCallbackFuncion = callbackFunction
+	status := C.SetFloatingLicenseCallback((C.CallbackType)(unsafe.Pointer(C.floatingLicenseCallbackCgoGateway)))
+	floatingLicenseCallbackFunction = callbackFunction
 	return int(status)
 }
 
