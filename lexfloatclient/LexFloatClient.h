@@ -125,6 +125,19 @@ LEXFLOATCLIENT_API int LF_CC SetFloatingLicenseCallback(CallbackType callback);
 LEXFLOATCLIENT_API int LF_CC SetFloatingClientMetadata(CSTRTYPE key, CSTRTYPE value);
 
 /*
+    FUNCTION: GetFloatingClientLibraryVersion()
+
+    PURPOSE: Gets the version of this library.
+
+    PARAMETERS:
+    * libraryVersion - pointer to a buffer that receives the value of the string.
+    * length - size of the buffer pointed to by the libraryVersion parameter.
+    
+    RETURN CODES: LF_OK, LF_E_BUFFER_SIZE
+*/
+LEXFLOATCLIENT_API int LF_CC GetFloatingClientLibraryVersion(STRTYPE libraryVersion, uint32_t length);
+
+/*
     FUNCTION: GetHostProductVersionName()
 
     PURPOSE: Gets the product version name.
