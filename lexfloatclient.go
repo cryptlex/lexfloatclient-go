@@ -118,6 +118,24 @@ func SetFloatingClientMetadata(key string, value string) int {
 }
 
 /*
+    FUNCTION: GetFloatingClientLibraryVersion()
+
+    PURPOSE: Gets the version of this library.
+
+    PARAMETERS:
+    * libraryVersion - pointer to a buffer that receives the value of the string
+    * length - size of the buffer pointed to by the libraryVersion parameter
+    
+    RETURN CODES: LF_OK, LF_E_BUFFER_SIZE
+*/
+func GetFloatingClientLibraryVersion(libraryVersion *string) int {
+    var cLibraryVersion = getCArray()
+    status := C.GetFloatingClientLibraryVersion(&cLibraryVersion[0], maxCArrayLength)
+    *libraryVersion = ctoGoString(&cLibraryVersion[0])
+    return int(status)
+}
+
+/*
     FUNCTION: GetHostProductVersionName()
 
     PURPOSE: Gets the product version name.
