@@ -52,7 +52,7 @@ const (
     // Metadata key length is more than 256 characters.
     LF_E_METADATA_KEY_LENGTH int = 52
 
-    // Metadata value length is more than 256 characters.
+    // Metadata value length is more than 4096 characters.
     LF_E_METADATA_VALUE_LENGTH int = 53
 
     // The floating client has reached it's metadata fields limit.
