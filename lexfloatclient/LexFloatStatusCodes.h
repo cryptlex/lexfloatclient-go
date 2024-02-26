@@ -114,7 +114,7 @@ enum LexFloatStatusCodes
     /*
         CODE: LF_E_METADATA_VALUE_LENGTH
 
-        MESSAGE: Metadata value length is more than 256 characters.
+        MESSAGE: Metadata value length is more than 4096 characters.
     */
     LF_E_METADATA_VALUE_LENGTH = 53,
 
