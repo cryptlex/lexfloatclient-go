@@ -117,7 +117,7 @@ LEXFLOATCLIENT_API int LF_CC SetFloatingLicenseCallback(CallbackType callback);
 
     PARAMETERS:
     * key - string of maximum length 256 characters with utf-8 encoding.
-    * value - string of maximum length 256 characters with utf-8 encoding.
+    * value - string of maximum length 4096 characters with utf-8 encoding.
 
     RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_METADATA_KEY_LENGTH,
     LF_E_METADATA_VALUE_LENGTH, LF_E_ACTIVATION_METADATA_LIMIT
