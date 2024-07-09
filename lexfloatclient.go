@@ -34,15 +34,15 @@ func floatingLicenseCallbackWrapper(status int) {
 }
 
 /*
-    FUNCTION: SetHostProductId()
+FUNCTION: SetHostProductId()
 
-    PURPOSE: Sets the product id of your application.
+PURPOSE: Sets the product id of your application.
 
-    PARAMETERS:
+PARAMETERS:
     * productId - the unique product id of your application as mentioned
-      on the product page in the dashboard.
+    on the product page in the dashboard.
 
-    RETURN CODES: LF_OK, LF_E_PRODUCT_ID
+RETURN CODES: LF_OK, LF_E_PRODUCT_ID
 */
 func SetHostProductId(productId string) int {
 	cProductId := goToCString(productId)
@@ -50,17 +50,18 @@ func SetHostProductId(productId string) int {
 	freeCString(cProductId)
 	return int(status)
 }
+
 /*
-    FUNCTION: SetHostUrl()
+FUNCTION: SetHostUrl()
 
-    PURPOSE: Sets the network address of the LexFloatServer.
+PURPOSE: Sets the network address of the LexFloatServer.
 
-    The url format should be: http://[ip or hostname]:[port]
+The url format should be: http://[ip or hostname]:[port]
 
-    PARAMETERS:
-    * hostUrl - url string having the correct format
+PARAMETERS:
+* hostUrl - url string having the correct format
 
-    RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_HOST_URL
+RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_HOST_URL
 */
 func SetHostUrl(hostUrl string) int {
 	cHostUrl := goToCString(hostUrl)
@@ -70,22 +71,22 @@ func SetHostUrl(hostUrl string) int {
 }
 
 /*
-    FUNCTION: SetFloatingLicenseCallback()
+FUNCTION: SetFloatingLicenseCallback()
 
-    PURPOSE: Sets the renew license callback function.
+PURPOSE: Sets the renew license callback function.
 
-    Whenever the license lease is about to expire, a renew request is sent to the
-    server. When the request completes, the license callback function
-    gets invoked with one of the following status codes:
+Whenever the license lease is about to expire, a renew request is sent to the
+server. When the request completes, the license callback function
+gets invoked with one of the following status codes:
 
-    LF_OK, LF_E_INET, LF_E_LICENSE_EXPIRED_INET, LF_E_LICENSE_NOT_FOUND, LF_E_CLIENT, LF_E_IP,
-    LF_E_SERVER, LF_E_TIME, LF_E_SERVER_LICENSE_NOT_ACTIVATED,LF_E_SERVER_TIME_MODIFIED,
-    LF_E_SERVER_LICENSE_SUSPENDED, LF_E_SERVER_LICENSE_EXPIRED, LF_E_SERVER_LICENSE_GRACE_PERIOD_OVER
+LF_OK, LF_E_INET, LF_E_LICENSE_EXPIRED_INET, LF_E_LICENSE_NOT_FOUND, LF_E_CLIENT, LF_E_IP,
+LF_E_SERVER, LF_E_TIME, LF_E_SERVER_LICENSE_NOT_ACTIVATED,LF_E_SERVER_TIME_MODIFIED,
+LF_E_SERVER_LICENSE_SUSPENDED, LF_E_SERVER_LICENSE_EXPIRED, LF_E_SERVER_LICENSE_GRACE_PERIOD_OVER
 
-    PARAMETERS:
-    * callback - name of the callback function
+PARAMETERS:
+* callback - name of the callback function
 
-    RETURN CODES: LF_OK, LF_E_PRODUCT_ID
+RETURN CODES: LF_OK, LF_E_PRODUCT_ID
 */
 func SetFloatingLicenseCallback(callbackFunction func(int)) int {
 	status := C.SetFloatingLicenseCallback((C.CallbackType)(unsafe.Pointer(C.floatingLicenseCallbackCgoGateway)))
@@ -94,19 +95,19 @@ func SetFloatingLicenseCallback(callbackFunction func(int)) int {
 }
 
 /*
-    FUNCTION: SetFloatingClientMetadata()
+FUNCTION: SetFloatingClientMetadata()
 
-    PURPOSE: Sets the floating client metadata.
+PURPOSE: Sets the floating client metadata.
 
-    The  metadata appears along with the license details of the license
-    in LexFloatServer dashboard.
+The  metadata appears along with the license details of the license
+in LexFloatServer dashboard.
 
-    PARAMETERS:
-    * key - string of maximum length 256 characters with utf-8 encoding.
-    * value - string of maximum length 4096 characters with utf-8 encoding.
+PARAMETERS:
+* key - string of maximum length 256 characters with utf-8 encoding.
+* value - string of maximum length 4096 characters with utf-8 encoding.
 
-    RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_METADATA_KEY_LENGTH,
-    LF_E_METADATA_VALUE_LENGTH, LF_E_ACTIVATION_METADATA_LIMIT
+RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_METADATA_KEY_LENGTH,
+LF_E_METADATA_VALUE_LENGTH, LF_E_ACTIVATION_METADATA_LIMIT
 */
 func SetFloatingClientMetadata(key string, value string) int {
 	cKey := goToCString(key)
@@ -118,33 +119,33 @@ func SetFloatingClientMetadata(key string, value string) int {
 }
 
 /*
-    FUNCTION: GetFloatingClientLibraryVersion()
+FUNCTION: GetFloatingClientLibraryVersion()
 
-    PURPOSE: Gets the version of this library.
+PURPOSE: Gets the version of this library.
 
-    PARAMETERS:
-    * libraryVersion - pointer to a buffer that receives the value of the string
-    * length - size of the buffer pointed to by the libraryVersion parameter
-    
-    RETURN CODES: LF_OK, LF_E_BUFFER_SIZE
+PARAMETERS:
+* libraryVersion - pointer to a buffer that receives the value of the string
+* length - size of the buffer pointed to by the libraryVersion parameter
+
+RETURN CODES: LF_OK, LF_E_BUFFER_SIZE
 */
 func GetFloatingClientLibraryVersion(libraryVersion *string) int {
-    var cLibraryVersion = getCArray()
-    status := C.GetFloatingClientLibraryVersion(&cLibraryVersion[0], maxCArrayLength)
-    *libraryVersion = ctoGoString(&cLibraryVersion[0])
-    return int(status)
+	var cLibraryVersion = getCArray()
+	status := C.GetFloatingClientLibraryVersion(&cLibraryVersion[0], maxCArrayLength)
+	*libraryVersion = ctoGoString(&cLibraryVersion[0])
+	return int(status)
 }
 
 /*
-    FUNCTION: GetHostProductVersionName()
+FUNCTION: GetHostProductVersionName()
 
-    PURPOSE: Gets the product version name.
+PURPOSE: Gets the product version name.
 
-    PARAMETERS:
-    * name - pointer to a buffer that receives the value of the string
-    * length - size of the buffer pointed to by the name parameter
+PARAMETERS:
+* name - pointer to a buffer that receives the value of the string
+* length - size of the buffer pointed to by the name parameter
 
-    RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_PRODUCT_VERSION_NOT_LINKED, LF_E_BUFFER_SIZE
+RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_PRODUCT_VERSION_NOT_LINKED, LF_E_BUFFER_SIZE
 */
 func GetHostProductVersionName(name *string) int {
 	var cName = getCArray()
@@ -154,15 +155,15 @@ func GetHostProductVersionName(name *string) int {
 }
 
 /*
-    FUNCTION: GetHostProductVersionDisplayName()
+FUNCTION: GetHostProductVersionDisplayName()
 
-    PURPOSE: Gets the product version display name.
+PURPOSE: Gets the product version display name.
 
-    PARAMETERS:
-    * displayName - pointer to a buffer that receives the value of the string
-    * length - size of the buffer pointed to by the displayName parameter
+PARAMETERS:
+* displayName - pointer to a buffer that receives the value of the string
+* length - size of the buffer pointed to by the displayName parameter
 
-    RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_PRODUCT_VERSION_NOT_LINKED, LF_E_BUFFER_SIZE
+RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_PRODUCT_VERSION_NOT_LINKED, LF_E_BUFFER_SIZE
 */
 func GetHostProductVersionDisplayName(displayName *string) int {
 	var cDisplayName = getCArray()
@@ -172,41 +173,41 @@ func GetHostProductVersionDisplayName(displayName *string) int {
 }
 
 /*
-    FUNCTION: GetHostProductVersionFeatureFlag()
+FUNCTION: GetHostProductVersionFeatureFlag()
 
-    PURPOSE: Gets the product version feature flag.
+PURPOSE: Gets the product version feature flag.
 
-    PARAMETERS:
-    * name - name of the feature flag
-    * enabled - pointer to the integer that receives the value - 0 or 1
-    * data - pointer to a buffer that receives the value of the string
-    * length - size of the buffer pointed to by the data parameter
+PARAMETERS:
+* name - name of the feature flag
+* enabled - pointer to the integer that receives the value - 0 or 1
+* data - pointer to a buffer that receives the value of the string
+* length - size of the buffer pointed to by the data parameter
 
-    RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_PRODUCT_VERSION_NOT_LINKED, LF_E_FEATURE_FLAG_NOT_FOUND, LF_E_BUFFER_SIZE
+RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_PRODUCT_VERSION_NOT_LINKED, LF_E_FEATURE_FLAG_NOT_FOUND, LF_E_BUFFER_SIZE
 */
 func GetHostProductVersionFeatureFlag(name string, enabled *bool, data *string) int {
-    cName := goToCString(name)
-    var cEnabled C.uint
-    var cData = getCArray()
-    status := C.GetHostProductVersionFeatureFlag(cName, &cEnabled, &cData[0], maxCArrayLength)
-    freeCString(cName)
-    *enabled = cEnabled > 0
-    *data = ctoGoString(&cData[0])
-    return int(status)
- }
+	cName := goToCString(name)
+	var cEnabled C.uint
+	var cData = getCArray()
+	status := C.GetHostProductVersionFeatureFlag(cName, &cEnabled, &cData[0], maxCArrayLength)
+	freeCString(cName)
+	*enabled = cEnabled > 0
+	*data = ctoGoString(&cData[0])
+	return int(status)
+}
 
 /*
-    FUNCTION: GetHostLicenseMetadata()
+FUNCTION: GetHostLicenseMetadata()
 
-    PURPOSE: Get the value of the license metadata field associated with the LexFloatServer license.
+PURPOSE: Get the value of the license metadata field associated with the LexFloatServer license.
 
-    PARAMETERS:
-    * key - key of the metadata field whose value you want to get
-    * value - pointer to a buffer that receives the value of the string
-    * length - size of the buffer pointed to by the value parameter
+PARAMETERS:
+* key - key of the metadata field whose value you want to get
+* value - pointer to a buffer that receives the value of the string
+* length - size of the buffer pointed to by the value parameter
 
-    RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_BUFFER_SIZE,
-    LF_E_METADATA_KEY_NOT_FOUND
+RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_BUFFER_SIZE,
+LF_E_METADATA_KEY_NOT_FOUND
 */
 func GetHostLicenseMetadata(key string, value *string) int {
 	cKey := goToCString(key)
@@ -218,17 +219,17 @@ func GetHostLicenseMetadata(key string, value *string) int {
 }
 
 /*
-    FUNCTION: GetHostLicenseMeterAttribute()
+FUNCTION: GetHostLicenseMeterAttribute()
 
-    PURPOSE: Gets the license meter attribute allowed uses and total uses associated with the LexFloatServer license.
+PURPOSE: Gets the license meter attribute allowed uses and total uses associated with the LexFloatServer license.
 
-    PARAMETERS:
-    * name - name of the meter attribute
-    * allowedUses - pointer to the integer that receives the value
-    * totalUses - pointer to the integer that receives the value
-    * grossUses - pointer to the integer that receives the value
+PARAMETERS:
+* name - name of the meter attribute
+* allowedUses - pointer to the integer that receives the value
+* totalUses - pointer to the integer that receives the value
+* grossUses - pointer to the integer that receives the value
 
-    RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_METER_ATTRIBUTE_NOT_FOUND
+RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_METER_ATTRIBUTE_NOT_FOUND
 */
 func GetHostLicenseMeterAttribute(name string, allowedUses *uint, totalUses *uint, grossUses *uint) int {
 	cName := goToCString(name)
@@ -242,15 +243,16 @@ func GetHostLicenseMeterAttribute(name string, allowedUses *uint, totalUses *uin
 	freeCString(cName)
 	return int(status)
 }
+
 /*
-    FUNCTION: GetHostLicenseExpiryDate()
+FUNCTION: GetHostLicenseExpiryDate()
 
-    PURPOSE: Gets the license expiry date timestamp of the LexFloatServer license.
+PURPOSE: Gets the license expiry date timestamp of the LexFloatServer license.
 
-    PARAMETERS:
-    * expiryDate - pointer to the integer that receives the value
+PARAMETERS:
+* expiryDate - pointer to the integer that receives the value
 
-    RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE
+RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE
 */
 func GetHostLicenseExpiryDate(expiryDate *uint) int {
 	var cExpiryDate C.uint
@@ -258,16 +260,17 @@ func GetHostLicenseExpiryDate(expiryDate *uint) int {
 	*expiryDate = uint(cExpiryDate)
 	return int(status)
 }
+
 /*
-    FUNCTION: GetFloatingClientMeterAttributeUses()
+FUNCTION: GetFloatingClientMeterAttributeUses()
 
-    PURPOSE: Gets the meter attribute uses consumed by the floating client.
+PURPOSE: Gets the meter attribute uses consumed by the floating client.
 
-    PARAMETERS:
-    * name - name of the meter attribute
-    * uses - pointer to the integer that receives the value
+PARAMETERS:
+* name - name of the meter attribute
+* uses - pointer to the integer that receives the value
 
-    RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_METER_ATTRIBUTE_NOT_FOUND
+RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_METER_ATTRIBUTE_NOT_FOUND
 */
 func GetFloatingClientMeterAttributeUses(name string, uses *uint) int {
 	cName := goToCString(name)
@@ -277,15 +280,16 @@ func GetFloatingClientMeterAttributeUses(name string, uses *uint) int {
 	freeCString(cName)
 	return int(status)
 }
+
 /*
-    FUNCTION: RequestFloatingLicense()
+FUNCTION: RequestFloatingLicense()
 
-    PURPOSE: Sends the request to lease the license from the LexFloatServer.
+PURPOSE: Sends the request to lease the license from the LexFloatServer.
 
-    RETURN CODES: LF_OK, LF_FAIL, LF_E_PRODUCT_ID, LF_E_LICENSE_EXISTS, LF_E_HOST_URL,
-    LF_E_CALLBACK, LF_E_LICENSE_LIMIT_REACHED, LF_E_INET, LF_E_TIME, LF_E_CLIENT, LF_E_IP, LF_E_SERVER,
-    LF_E_SERVER_LICENSE_NOT_ACTIVATED, LF_E_SERVER_TIME_MODIFIED, LF_E_SERVER_LICENSE_SUSPENDED,
-    LF_E_SERVER_LICENSE_GRACE_PERIOD_OVER, LF_E_SERVER_LICENSE_EXPIRED
+RETURN CODES: LF_OK, LF_FAIL, LF_E_PRODUCT_ID, LF_E_LICENSE_EXISTS, LF_E_HOST_URL,
+LF_E_CALLBACK, LF_E_LICENSE_LIMIT_REACHED, LF_E_INET, LF_E_TIME, LF_E_CLIENT, LF_E_IP, LF_E_SERVER,
+LF_E_SERVER_LICENSE_NOT_ACTIVATED, LF_E_SERVER_TIME_MODIFIED, LF_E_SERVER_LICENSE_SUSPENDED,
+LF_E_SERVER_LICENSE_GRACE_PERIOD_OVER, LF_E_SERVER_LICENSE_EXPIRED
 */
 func RequestFloatingLicense() int {
 	status := C.RequestFloatingLicense()
@@ -293,16 +297,16 @@ func RequestFloatingLicense() int {
 }
 
 /*
-    FUNCTION: DropFloatingLicense()
+FUNCTION: DropFloatingLicense()
 
-    PURPOSE: Sends the request to the LexFloatServer to free the license.
+PURPOSE: Sends the request to the LexFloatServer to free the license.
 
-    Call this function before you exit your application to prevent zombie licenses.
+Call this function before you exit your application to prevent zombie licenses.
 
-    RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_HOST_URL, LF_E_CALLBACK,
-    LF_E_INET, LF_E_LICENSE_NOT_FOUND, LF_E_CLIENT, LF_E_IP, LF_E_SERVER,
-    LF_E_SERVER_LICENSE_NOT_ACTIVATED, LF_E_SERVER_TIME_MODIFIED, LF_E_SERVER_LICENSE_SUSPENDED,
-    LF_E_SERVER_LICENSE_GRACE_PERIOD_OVER, LF_E_SERVER_LICENSE_EXPIRED
+RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_HOST_URL, LF_E_CALLBACK,
+LF_E_INET, LF_E_LICENSE_NOT_FOUND, LF_E_CLIENT, LF_E_IP, LF_E_SERVER,
+LF_E_SERVER_LICENSE_NOT_ACTIVATED, LF_E_SERVER_TIME_MODIFIED, LF_E_SERVER_LICENSE_SUSPENDED,
+LF_E_SERVER_LICENSE_GRACE_PERIOD_OVER, LF_E_SERVER_LICENSE_EXPIRED
 */
 func DropFloatingLicense() int {
 	status := C.DropFloatingLicense()
@@ -310,12 +314,12 @@ func DropFloatingLicense() int {
 }
 
 /*
-    FUNCTION: HasFloatingLicense()
+FUNCTION: HasFloatingLicense()
 
-    PURPOSE: Checks whether any license has been leased or not. If yes,
-    it retuns LF_OK.
+PURPOSE: Checks whether any license has been leased or not. If yes,
+it retuns LF_OK.
 
-    RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE
+RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE
 */
 func HasFloatingLicense() int {
 	status := C.HasFloatingLicense()
@@ -323,19 +327,37 @@ func HasFloatingLicense() int {
 }
 
 /*
-    FUNCTION: IncrementFloatingClientMeterAttributeUses()
+   FUNCTION: GetFloatinglicenseMode()
 
-    PURPOSE: Increments the meter attribute uses of the floating client.
+   PURPOSE: Gets the mode of the floating license (online or offline).
 
-    PARAMETERS:
-    * name - name of the meter attribute
-    * increment - the increment value
+   PARAMETERS:
+   * modePtr - pointer to a buffer that receives the value of the string
+   * length - size of the buffer pointed to by the value parameter
 
-    RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_HOST_URL, LF_E_METER_ATTRIBUTE_NOT_FOUND,
-    LF_E_INET, LF_E_LICENSE_NOT_FOUND, LF_E_CLIENT, LF_E_IP, LF_E_SERVER, LF_E_METER_ATTRIBUTE_USES_LIMIT_REACHED,
-    LF_E_SERVER_LICENSE_NOT_ACTIVATED, LF_E_SERVER_TIME_MODIFIED, LF_E_SERVER_LICENSE_SUSPENDED,
-    LF_E_SERVER_LICENSE_GRACE_PERIOD_OVER, LF_E_SERVER_LICENSE_EXPIRED
+   RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_BUFFER_SIZE
+*/
 
+func GetFloatingLicenseMode(modePtr *string) int {
+	var cModePtr = getCArray()
+	status := C.GetFloatingLicenseMode(&cModePtr[0], maxCArrayLength)
+	*modePtr = ctoGoString(&cModePtr[0])
+	return int(status)
+}
+
+/*
+FUNCTION: IncrementFloatingClientMeterAttributeUses()
+
+PURPOSE: Increments the meter attribute uses of the floating client.
+
+PARAMETERS:
+* name - name of the meter attribute
+* increment - the increment value
+
+RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_HOST_URL, LF_E_METER_ATTRIBUTE_NOT_FOUND,
+LF_E_INET, LF_E_LICENSE_NOT_FOUND, LF_E_CLIENT, LF_E_IP, LF_E_SERVER, LF_E_METER_ATTRIBUTE_USES_LIMIT_REACHED,
+LF_E_SERVER_LICENSE_NOT_ACTIVATED, LF_E_SERVER_TIME_MODIFIED, LF_E_SERVER_LICENSE_SUSPENDED,
+LF_E_SERVER_LICENSE_GRACE_PERIOD_OVER, LF_E_SERVER_LICENSE_EXPIRED
 */
 func IncrementFloatingClientMeterAttributeUses(name string, increment uint) int {
 	cName := goToCString(name)
@@ -346,20 +368,20 @@ func IncrementFloatingClientMeterAttributeUses(name string, increment uint) int 
 }
 
 /*
-    FUNCTION: DecrementFloatingClientMeterAttributeUses()
+FUNCTION: DecrementFloatingClientMeterAttributeUses()
 
-    PURPOSE: Decrements the meter attribute uses of the floating client.
+PURPOSE: Decrements the meter attribute uses of the floating client.
 
-    PARAMETERS:
-    * name - name of the meter attribute
-    * decrement - the decrement value
+PARAMETERS:
+* name - name of the meter attribute
+* decrement - the decrement value
 
-    RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_HOST_URL, LF_E_METER_ATTRIBUTE_NOT_FOUND,
-    LF_E_INET, LF_E_LICENSE_NOT_FOUND, LF_E_CLIENT, LF_E_IP, LF_E_SERVER,
-    LF_E_SERVER_LICENSE_NOT_ACTIVATED, LF_E_SERVER_TIME_MODIFIED, LF_E_SERVER_LICENSE_SUSPENDED,
-    LF_E_SERVER_LICENSE_GRACE_PERIOD_OVER, LF_E_SERVER_LICENSE_EXPIRED
+RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_HOST_URL, LF_E_METER_ATTRIBUTE_NOT_FOUND,
+LF_E_INET, LF_E_LICENSE_NOT_FOUND, LF_E_CLIENT, LF_E_IP, LF_E_SERVER,
+LF_E_SERVER_LICENSE_NOT_ACTIVATED, LF_E_SERVER_TIME_MODIFIED, LF_E_SERVER_LICENSE_SUSPENDED,
+LF_E_SERVER_LICENSE_GRACE_PERIOD_OVER, LF_E_SERVER_LICENSE_EXPIRED
 
-    NOTE: If the decrement is more than the current uses, it resets the uses to 0.
+NOTE: If the decrement is more than the current uses, it resets the uses to 0.
 */
 func DecrementFloatingClientMeterAttributeUses(name string, decrement uint) int {
 	cName := goToCString(name)
@@ -370,17 +392,17 @@ func DecrementFloatingClientMeterAttributeUses(name string, decrement uint) int 
 }
 
 /*
-    FUNCTION: ResetFloatingClientMeterAttributeUses()
+FUNCTION: ResetFloatingClientMeterAttributeUses()
 
-    PURPOSE: Resets the meter attribute uses consumed by the floating client.
+PURPOSE: Resets the meter attribute uses consumed by the floating client.
 
-    PARAMETERS:
-    * name - name of the meter attribute
+PARAMETERS:
+* name - name of the meter attribute
 
-    RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_HOST_URL, LF_E_METER_ATTRIBUTE_NOT_FOUND,
-    LF_E_INET, LF_E_LICENSE_NOT_FOUND, LF_E_CLIENT, LF_E_IP, LF_E_SERVER,
-    LF_E_SERVER_LICENSE_NOT_ACTIVATED, LF_E_SERVER_TIME_MODIFIED, LF_E_SERVER_LICENSE_SUSPENDED,
-    LF_E_SERVER_LICENSE_GRACE_PERIOD_OVER, LF_E_SERVER_LICENSE_EXPIRED
+RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_HOST_URL, LF_E_METER_ATTRIBUTE_NOT_FOUND,
+LF_E_INET, LF_E_LICENSE_NOT_FOUND, LF_E_CLIENT, LF_E_IP, LF_E_SERVER,
+LF_E_SERVER_LICENSE_NOT_ACTIVATED, LF_E_SERVER_TIME_MODIFIED, LF_E_SERVER_LICENSE_SUSPENDED,
+LF_E_SERVER_LICENSE_GRACE_PERIOD_OVER, LF_E_SERVER_LICENSE_EXPIRED
 */
 func ResetFloatingClientMeterAttributeUses(name string) int {
 	cName := goToCString(name)
