@@ -61,6 +61,28 @@
 typedef void (LF_CC *CallbackType)(uint32_t);
 
 /*
+    FUNCTION: SetPermissionFlag()
+
+    PURPOSE: Sets the permission flag.
+
+    This function must be called on every start of your program after SetHostProductId()
+    function in case the application allows borrowing of licenses or system wide activation.
+
+    PARAMETERS:
+    * flags - depending on your application's requirements, choose one of 
+      the following values: LF_USER, LF_ALL_USERS.
+
+      - LF_USER: This flag indicates that the application does not require
+        admin or root permissions to run.
+
+      - LF_ALL_USERS: This flag is specifically designed for Windows and should be used 
+        for system-wide activations.
+
+    RETURN CODES: LF_OK, LF_E_PRODUCT_ID
+*/
+LEXFLOATCLIENT_API int LF_CC SetPermissionFlag(uint32_t flags);
+
+/*
     FUNCTION: SetHostProductId()
 
     PURPOSE: Sets the product id of your application.
