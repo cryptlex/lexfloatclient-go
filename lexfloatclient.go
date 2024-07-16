@@ -14,10 +14,15 @@ void floatingLicenseCallbackCgoGateway(int status);
 import "C"
 import (
 	"unsafe"
+	"encoding/json"
+    "strings"
 )
 
 type callbackType func(int)
 
+type HostConfig struct {
+	MaxOfflineLeaseDuration string `json:"maxOfflineLeaseDuration"`
+}
 const (
 	LA_USER      uint = 0
 	LA_SYSTEM    uint = 1
@@ -134,6 +139,33 @@ func GetFloatingClientLibraryVersion(libraryVersion *string) int {
     *libraryVersion = ctoGoString(&cLibraryVersion[0])
     return int(status)
 }
+
+/*
+    FUNCTION: GetHostConfig()
+
+    PURPOSE: Gets the host configuration.
+    This function sends a network request to LexFloatServer to get the configuration details.
+
+    PARAMETERS:
+
+    * hostConfigPtr - pointer to a buffer that receives the value of the string
+    
+    * length - size of the buffer pointed to by the hostConfigPtr parameter
+     
+    RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_HOST_URL, LF_E_BUFFER_SIZE
+    LF_E_INET, LF_E_CLIENT, LF_E_IP, LF_E_SERVER   
+*/
+func GetHostConfig(hostConfig *HostConfig) int {
+    var chostConfig = getCArray()
+    hostConfigJson := ""
+    status := C.GetHostConfigInternal(&chostConfig[0], maxCArrayLength)
+    hostConfigJson = strings.TrimRight(ctoGoString(&chostConfig[0]), "\x00")
+    if hostConfigJson != "" {
+       config := []byte(hostConfigJson)
+       json.Unmarshal(config,hostConfig)
+    }
+    return int(status)
+ }
 
 /*
     FUNCTION: GetHostProductVersionName()
