@@ -39,8 +39,8 @@ func floatingLicenseCallbackWrapper(status int) {
     PURPOSE: Sets the product id of your application.
 
     PARAMETERS:
-        * productId - the unique product id of your application as mentioned
-        on the product page in the dashboard.
+    * productId - the unique product id of your application as mentioned
+    on the product page in the dashboard.
 
     RETURN CODES: LF_OK, LF_E_PRODUCT_ID
 */
