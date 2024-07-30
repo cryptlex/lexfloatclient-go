@@ -186,14 +186,14 @@ func GetHostProductVersionDisplayName(displayName *string) int {
     RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_PRODUCT_VERSION_NOT_LINKED, LF_E_FEATURE_FLAG_NOT_FOUND, LF_E_BUFFER_SIZE
 */
 func GetHostProductVersionFeatureFlag(name string, enabled *bool, data *string) int {
-	cName := goToCString(name)
-	var cEnabled C.uint
-	var cData = getCArray()
-	status := C.GetHostProductVersionFeatureFlag(cName, &cEnabled, &cData[0], maxCArrayLength)
-	freeCString(cName)
-	*enabled = cEnabled > 0
-	*data = ctoGoString(&cData[0])
-	return int(status)
+    cName := goToCString(name)
+    var cEnabled C.uint
+    var cData = getCArray()
+    status := C.GetHostProductVersionFeatureFlag(cName, &cEnabled, &cData[0], maxCArrayLength)
+    freeCString(cName)
+    *enabled = cEnabled > 0
+    *data = ctoGoString(&cData[0])
+    return int(status)
 }
 
 /*
