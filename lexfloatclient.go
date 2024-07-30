@@ -224,21 +224,21 @@ func GetHostLicenseMetadata(key string, value *string) int {
 
     PARAMETERS:
     * name - name of the meter attribute
-    * allowedUses - pointer to the integer that receives the value
+    * allowedUses - pointer to the integer that receives the value. A value of -1 indicates unlimited allowed uses.
     * totalUses - pointer to the integer that receives the value
     * grossUses - pointer to the integer that receives the value
 
     RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_METER_ATTRIBUTE_NOT_FOUND
 */
-func GetHostLicenseMeterAttribute(name string, allowedUses *uint, totalUses *uint, grossUses *uint) int {
+func GetHostLicenseMeterAttribute(name string, allowedUses *int64, totalUses *uint64, grossUses *uint64) int {
 	cName := goToCString(name)
-	var cAllowedUses C.uint
-	var cTotalUses C.uint
-	var cGrossUses C.uint
+	var cAllowedUses C.int64_t
+	var cTotalUses C.uint64_t
+	var cGrossUses C.uint64_t
 	status := C.GetHostLicenseMeterAttribute(cName, &cAllowedUses, &cTotalUses, &cGrossUses)
-	*allowedUses = uint(cAllowedUses)
-	*totalUses = uint(cTotalUses)
-	*grossUses = uint(cGrossUses)
+	*allowedUses = int64(cAllowedUses)
+	*totalUses = uint64(cTotalUses)
+	*grossUses = uint64(cGrossUses)
 	freeCString(cName)
 	return int(status)
 }
