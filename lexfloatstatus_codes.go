@@ -4,7 +4,7 @@ package lexfloatclient
 
 // int enumeration from lexfloatclient/int.h int =4
 const (
-	// Success code.
+    // Success code.
     LF_OK int = 0
 
     // Failure code.
@@ -31,16 +31,15 @@ const (
     // License has already been leased.
     LF_E_LICENSE_EXISTS int = 46
 
-    // License does not exist on server or has already expired. This
-	// happens when the request to refresh the license is delayed.
+    // License does not exist on server or has already expired.
+    // This happens when the request to refresh the license is delayed.
     LF_E_LICENSE_NOT_FOUND int = 47
 
-    // License lease has expired due to network error. This
-	// happens when the request to refresh the license fails due to
-	// network error.
+    // License lease has expired due to network error.
+    // This happens when the request to refresh the license fails due to network error.
     LF_E_LICENSE_EXPIRED_INET int = 48
 
-    // The server has reached it's allowed limit of floating licenses.
+    // The server has reached its allowed limit of floating licenses.
     LF_E_LICENSE_LIMIT_REACHED int = 49
 
     // The buffer size was smaller than required.
@@ -55,23 +54,48 @@ const (
     // Metadata value length is more than 4096 characters.
     LF_E_METADATA_VALUE_LENGTH int = 53
 
-    // The floating client has reached it's metadata fields limit.
+    // The floating client has reached its metadata fields limit.
     LF_E_FLOATING_CLIENT_METADATA_LIMIT int = 54
 
     // The meter attribute does not exist.
     LF_E_METER_ATTRIBUTE_NOT_FOUND int = 55
 
-    // The meter attribute has reached it's usage limit.
+    // The meter attribute has reached its usage limit.
     LF_E_METER_ATTRIBUTE_USES_LIMIT_REACHED int = 56
 
     // No product version is linked with the license.
-	LF_E_PRODUCT_VERSION_NOT_LINKED int = 57
+    LF_E_PRODUCT_VERSION_NOT_LINKED int = 57
 
-	// The product version feature flag does not exist.
-	LF_E_FEATURE_FLAG_NOT_FOUND int = 58
+    // The product version feature flag does not exist.
+    LF_E_FEATURE_FLAG_NOT_FOUND int = 58
+
+    // Insufficient system permissions.
+    LF_E_SYSTEM_PERMISSION int = 59
 
     // IP address is not allowed.
     LF_E_IP int = 60
+
+    // Invalid permission flag.
+    LF_E_INVALID_PERMISSION_FLAG int = 61
+
+    // Offline floating license is not allowed for per-instance leasing strategy.
+    LF_E_OFFLINE_FLOATING_LICENSE_NOT_ALLOWED int = 62
+
+    // Maximum offline lease duration exceeded.
+    LF_E_MAX_OFFLINE_LEASE_DURATION_EXCEEDED int = 63
+
+    // Allowed offline floating clients limit reached.
+    LF_E_ALLOWED_OFFLINE_FLOATING_CLIENTS_LIMIT_REACHED int = 64
+
+    // Fingerprint couldn't be generated because Windows Management Instrumentation (WMI) service has been disabled.
+    // This error is specific to Windows only.
+    LF_E_WMIC int = 65
+
+    // Machine fingerprint has changed since activation.
+    LF_E_MACHINE_FINGERPRINT int = 66
+
+    // Request blocked due to untrusted proxy.
+    LF_E_PROXY_NOT_TRUSTED int = 67
 
     // Client error.
     LF_E_CLIENT int = 70
@@ -79,8 +103,8 @@ const (
     // Server error.
     LF_E_SERVER int = 71
 
-    // System time on server has been tampered with. Ensure
-	// your date and time settings are correct on the server machine.
+    // System time on server has been tampered with.
+    // Ensure your date and time settings are correct on the server machine.
     LF_E_SERVER_TIME_MODIFIED int = 72
 
     // The server has not been activated using a license key.
