@@ -273,6 +273,11 @@ LEXFLOATCLIENT_API int LF_CC HasFloatingLicense();
     FUNCTION: RequestOfflineFloatingLicense()
 
     PURPOSE: Sends the request to lease the license from the LexFloatServer for offline usage.
+    
+    The maximum value of lease duration is configured in the config.yml of LexFloatServer 
+
+    PARAMETERS:
+    * leaseDuration - value of the lease duration.
 
     RETURN CODES: LF_OK, LF_FAIL, LF_E_PRODUCT_ID, LF_E_LICENSE_EXISTS, LF_E_HOST_URL,
     LF_E_LICENSE_LIMIT_REACHED, LF_E_INET, LF_E_TIME, LF_E_CLIENT, LF_E_IP, LF_E_SERVER,
