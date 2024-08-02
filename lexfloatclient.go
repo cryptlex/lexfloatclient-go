@@ -19,9 +19,6 @@ import (
 type callbackType func(int)
 
 const (
-	LA_USER      uint = 0
-	LA_SYSTEM    uint = 1
-	LA_IN_MEMORY uint = 2
     LF_USER      uint = 10
     LF_ALL_USERS uint = 11
 )
