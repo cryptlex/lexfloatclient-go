@@ -18,7 +18,7 @@ import (
 
 type callbackType func(int)
 
-const (
+const ( 
 	LA_USER      uint = 0
 	LA_SYSTEM    uint = 1
 	LA_IN_MEMORY uint = 2
@@ -40,7 +40,7 @@ func floatingLicenseCallbackWrapper(status int) {
 
     PARAMETERS:
     * productId - the unique product id of your application as mentioned
-    on the product page in the dashboard.
+      on the product page in the dashboard.
 
     RETURN CODES: LF_OK, LF_E_PRODUCT_ID
 */
@@ -349,16 +349,15 @@ func HasFloatingLicense() int {
    PURPOSE: Gets the mode of the floating license (online or offline).
 
    PARAMETERS:
-   * modePtr - pointer to a buffer that receives the value of the string
+   * mode - pointer to a buffer that receives the value of the string
    * length - size of the buffer pointed to by the value parameter
 
    RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_BUFFER_SIZE
 */
-
-func GetFloatingLicenseMode(modePtr *string) int {
-	var cModePtr = getCArray()
-	status := C.GetFloatingLicenseMode(&cModePtr[0], maxCArrayLength)
-	*modePtr = ctoGoString(&cModePtr[0])
+func GetFloatingLicenseMode(mode *string) int {
+	var cMode = getCArray()
+	status := C.GetFloatingLicenseMode(&cMode[0], maxCArrayLength)
+	*mode= ctoGoString(&cMode[0])
 	return int(status)
 }
 
