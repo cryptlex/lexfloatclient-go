@@ -114,7 +114,7 @@ enum LexFloatStatusCodes
     /*
         CODE: LF_E_METADATA_VALUE_LENGTH
 
-        MESSAGE: Metadata value length is more than 256 characters.
+        MESSAGE: Metadata value length is more than 4096 characters.
     */
     LF_E_METADATA_VALUE_LENGTH = 53,
 
@@ -210,8 +210,14 @@ enum LexFloatStatusCodes
         MESSAGE: Machine fingerprint has changed since activation.
     */
     LF_E_MACHINE_FINGERPRINT = 66,
-
-
+    
+    /*
+    * CODE: LF_E_PROXY_NOT_TRUSTED
+    *
+    * MESSAGE: Request blocked due to untrusted proxy.
+    */
+    LF_E_PROXY_NOT_TRUSTED = 67,
+    
     /*
         CODE: LF_E_CLIENT
 
