@@ -147,6 +147,21 @@ LEXFLOATCLIENT_API int LF_CC SetFloatingLicenseCallback(CallbackType callback);
 LEXFLOATCLIENT_API int LF_CC SetFloatingClientMetadata(CSTRTYPE key, CSTRTYPE value);
 
 /*
+    FUNCTION: GetHostConfigInternal()
+    
+    PURPOSE: Gets the host configuration.
+    This function sends a network request to LexFloatServer to get the configuration details.
+    
+    PARAMETERS:
+    * hostConfig - pointer to a buffer that receives the value of the string
+    * length - size of the buffer pointed to by the hostConfigPtr parameter
+     
+    RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_HOST_URL, LF_E_BUFFER_SIZE
+    LF_E_INET, LF_E_CLIENT, LF_E_IP, LF_E_SERVER   
+*/
+LEXFLOATCLIENT_API int LF_CC GetHostConfigInternal(STRTYPE hostConfig, uint32_t length);
+
+/*
     FUNCTION: GetFloatingClientLibraryVersion()
 
     PURPOSE: Gets the version of this library.
