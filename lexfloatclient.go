@@ -340,6 +340,27 @@ func HasFloatingLicense() int {
 }
 
 /*
+    FUNCTION: RequestOfflineFloatingLicense()
+
+    PURPOSE: Sends the request to lease the license from the LexFloatServer for offline usage.
+
+    The maximum value of lease duration is configured in the config.yml of LexFloatServer 
+
+    PARAMETERS:
+    * leaseDuration - value of the lease duration.
+
+    RETURN CODES: LF_OK, LF_FAIL, LF_E_PRODUCT_ID, LF_E_LICENSE_EXISTS, LF_E_HOST_URL,
+    LF_E_LICENSE_LIMIT_REACHED, LF_E_INET, LF_E_TIME, LF_E_CLIENT, LF_E_IP, LF_E_SERVER,
+    LF_E_SERVER_LICENSE_NOT_ACTIVATED, LF_E_SERVER_TIME_MODIFIED, LF_E_SERVER_LICENSE_SUSPENDED,
+    LF_E_SERVER_LICENSE_GRACE_PERIOD_OVER, LF_E_SERVER_LICENSE_EXPIRED, LF_E_WMIC, LF_E_SYSTEM_PERMISSION
+*/
+func RequestOfflineFloatingLicense(leaseDuration uint) int {
+    cLeaseDuration := (C.uint)(leaseDuration)
+    status := C.RequestOfflineFloatingLicense(cLeaseDuration)
+    return int(status)
+};
+
+/*
     FUNCTION: IncrementFloatingClientMeterAttributeUses()
 
     PURPOSE: Increments the meter attribute uses of the floating client.
