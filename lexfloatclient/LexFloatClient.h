@@ -237,13 +237,13 @@ LEXFLOATCLIENT_API int LF_CC GetHostLicenseMetadata(CSTRTYPE key, STRTYPE value,
 
     PARAMETERS:
     * name - name of the meter attribute
-    * allowedUses - pointer to the integer that receives the value
+    * allowedUses - pointer to the integer that receives the value. A value of -1 indicates unlimited allowed uses.
     * totalUses - pointer to the integer that receives the value
     * grossUses - pointer to the integer that receives the value
 
     RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_METER_ATTRIBUTE_NOT_FOUND
 */
-LEXFLOATCLIENT_API int LF_CC GetHostLicenseMeterAttribute(CSTRTYPE name, uint32_t *allowedUses, uint32_t *totalUses, uint32_t *grossUses);
+LEXFLOATCLIENT_API int LF_CC GetHostLicenseMeterAttribute(CSTRTYPE name, int64_t *allowedUses, uint64_t *totalUses, uint64_t *grossUses);
 
 /*
     FUNCTION: GetHostLicenseExpiryDate()
