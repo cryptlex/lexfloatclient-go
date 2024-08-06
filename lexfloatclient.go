@@ -306,6 +306,28 @@ func GetFloatingClientMeterAttributeUses(name string, uses *uint) int {
 }
 
 /*
+    FUNCTION: GetFloatingClientMetadata()
+
+    PURPOSE: Gets the value of the floating client metadata.
+
+    PARAMETERS:
+    * key - key of the metadata field whose value you want to retrieve
+    * value - pointer to a buffer that receives the value of the string
+    
+    RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_BUFFER_SIZE,
+    LF_E_METADATA_KEY_NOT_FOUND
+*/
+func GetFloatingClientMetadata(key string, value *string) int {
+	cKey := goToCString(key)
+	var cValue = getCArray()
+	status := C.GetFloatingClientMetadata(cKey, &cValue[0], maxCArrayLength)
+	*value = ctoGoString(&cValue[0])
+	freeCString(cKey)
+	return int(status)
+
+}
+
+/*
     FUNCTION: RequestFloatingLicense()
 
     PURPOSE: Sends the request to lease the license from the LexFloatServer.
