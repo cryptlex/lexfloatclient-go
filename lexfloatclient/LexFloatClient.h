@@ -270,6 +270,19 @@ LEXFLOATCLIENT_API int LF_CC DropFloatingLicense();
 LEXFLOATCLIENT_API int LF_CC HasFloatingLicense();
 
 /*
+    FUNCTION: GetFloatinglicenseMode()
+
+    PURPOSE: Gets the mode of the floating license (online or offline).
+
+    PARAMETERS:
+    * modePtr - pointer to a buffer that receives the value of the string
+    * length - size of the buffer pointed to by the value parameter
+    
+    RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_BUFFER_SIZE
+*/
+LEXFLOATCLIENT_API int LF_CC GetFloatingLicenseMode(STRTYPE modePtr, uint32_t length);
+
+/*
     FUNCTION: RequestOfflineFloatingLicense()
 
     PURPOSE: Sends the request to lease the license from the LexFloatServer for offline usage.
