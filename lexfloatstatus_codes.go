@@ -96,6 +96,9 @@ const (
     // Machine fingerprint has changed since activation.
     LF_E_MACHINE_FINGERPRINT int = 66
 
+	// Request blocked due to untrusted proxy.
+	LF_E_PROXY_NOT_TRUSTED int = 67
+
     // Client error.
     LF_E_CLIENT int = 70
 
