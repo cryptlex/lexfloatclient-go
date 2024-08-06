@@ -19,9 +19,8 @@ import (
 type callbackType func(int)
 
 const (
-	LA_USER      uint = 0
-	LA_SYSTEM    uint = 1
-	LA_IN_MEMORY uint = 2
+    LF_USER      uint = 10
+    LF_ALL_USERS uint = 11
 )
 
 var floatingLicenseCallbackFunction callbackType
@@ -31,6 +30,31 @@ func floatingLicenseCallbackWrapper(status int) {
 	if floatingLicenseCallbackFunction != nil {
 		floatingLicenseCallbackFunction(status)
 	}
+}
+/*
+    FUNCTION: SetPermissionFlag()
+
+    PURPOSE: Sets the permission flag.
+
+    This function must be called on every start of your program after SetHostProductId()
+    function in case the application allows borrowing of licenses or system wide activation.
+
+    PARAMETERS:
+    * flags - depending on your application's requirements, choose one of 
+      the following values: LF_USER, LF_ALL_USERS.
+
+      - LF_USER: This flag indicates that the application does not require
+        admin or root permissions to run.
+
+      - LF_ALL_USERS: This flag is specifically designed for Windows and should be used 
+        for system-wide activations.
+
+    RETURN CODES: LF_OK, LF_E_PRODUCT_ID
+*/
+func SetPermissionFlag(flags uint) int {
+	cFlags := (C.uint)(flags)
+	status := C.SetPermissionFlag(cFlags)
+	return int(status)
 }
 
 /*
@@ -50,6 +74,7 @@ func SetHostProductId(productId string) int {
 	freeCString(cProductId)
 	return int(status)
 }
+
 /*
     FUNCTION: SetHostUrl()
 
@@ -125,14 +150,14 @@ func SetFloatingClientMetadata(key string, value string) int {
     PARAMETERS:
     * libraryVersion - pointer to a buffer that receives the value of the string
     * length - size of the buffer pointed to by the libraryVersion parameter
-    
+
     RETURN CODES: LF_OK, LF_E_BUFFER_SIZE
 */
 func GetFloatingClientLibraryVersion(libraryVersion *string) int {
-    var cLibraryVersion = getCArray()
-    status := C.GetFloatingClientLibraryVersion(&cLibraryVersion[0], maxCArrayLength)
-    *libraryVersion = ctoGoString(&cLibraryVersion[0])
-    return int(status)
+	var cLibraryVersion = getCArray()
+	status := C.GetFloatingClientLibraryVersion(&cLibraryVersion[0], maxCArrayLength)
+	*libraryVersion = ctoGoString(&cLibraryVersion[0])
+	return int(status)
 }
 
 /*
@@ -193,7 +218,7 @@ func GetHostProductVersionFeatureFlag(name string, enabled *bool, data *string) 
     *enabled = cEnabled > 0
     *data = ctoGoString(&cData[0])
     return int(status)
- }
+}
 
 /*
     FUNCTION: GetHostLicenseMetadata()
@@ -242,6 +267,7 @@ func GetHostLicenseMeterAttribute(name string, allowedUses *uint, totalUses *uin
 	freeCString(cName)
 	return int(status)
 }
+
 /*
     FUNCTION: GetHostLicenseExpiryDate()
 
@@ -258,6 +284,7 @@ func GetHostLicenseExpiryDate(expiryDate *uint) int {
 	*expiryDate = uint(cExpiryDate)
 	return int(status)
 }
+
 /*
     FUNCTION: GetFloatingClientMeterAttributeUses()
 
@@ -299,6 +326,7 @@ func GetFloatingClientMetadata(key string, value *string) int {
 	return int(status)
 
 }
+
 /*
     FUNCTION: RequestFloatingLicense()
 
@@ -311,6 +339,23 @@ func GetFloatingClientMetadata(key string, value *string) int {
 */
 func RequestFloatingLicense() int {
 	status := C.RequestFloatingLicense()
+	return int(status)
+}
+
+/*
+    FUNCTION: GetFloatingClientLeaseExpiryDate()
+
+    PURPOSE: Gets the lease expiry date timestamp of the floating client.
+
+    PARAMETERS:
+    * leaseExpiryDate - pointer to the integer that receives the value
+
+    RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE
+*/
+func GetFloatingClientLeaseExpiryDate(leaseExpiryDate *uint) int {
+	var cLeaseExpiryDate C.uint
+	status := C.GetFloatingClientLeaseExpiryDate(&cLeaseExpiryDate)
+	*leaseExpiryDate = uint(cLeaseExpiryDate)
 	return int(status)
 }
 
@@ -345,6 +390,46 @@ func HasFloatingLicense() int {
 }
 
 /*
+
+   FUNCTION: GetFloatinglicenseMode()
+
+   PURPOSE: Gets the mode of the floating license (online or offline).
+
+   PARAMETERS:
+   * mode - pointer to a buffer that receives the value of the string
+   * length - size of the buffer pointed to by the value parameter
+
+   RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_BUFFER_SIZE
+*/
+func GetFloatingLicenseMode(mode *string) int {
+	var cMode = getCArray()
+	status := C.GetFloatingLicenseMode(&cMode[0], maxCArrayLength)
+	*mode= ctoGoString(&cMode[0])
+	return int(status)
+}
+
+/*
+    FUNCTION: RequestOfflineFloatingLicense()
+
+    PURPOSE: Sends the request to lease the license from the LexFloatServer for offline usage.
+
+    The maximum value of lease duration is configured in the config.yml of LexFloatServer 
+
+    PARAMETERS:
+    * leaseDuration - value of the lease duration.
+
+    RETURN CODES: LF_OK, LF_FAIL, LF_E_PRODUCT_ID, LF_E_LICENSE_EXISTS, LF_E_HOST_URL,
+    LF_E_LICENSE_LIMIT_REACHED, LF_E_INET, LF_E_TIME, LF_E_CLIENT, LF_E_IP, LF_E_SERVER,
+    LF_E_SERVER_LICENSE_NOT_ACTIVATED, LF_E_SERVER_TIME_MODIFIED, LF_E_SERVER_LICENSE_SUSPENDED,
+    LF_E_SERVER_LICENSE_GRACE_PERIOD_OVER, LF_E_SERVER_LICENSE_EXPIRED, LF_E_WMIC, LF_E_SYSTEM_PERMISSION
+*/
+func RequestOfflineFloatingLicense(leaseDuration uint) int {
+    cLeaseDuration := (C.uint)(leaseDuration)
+    status := C.RequestOfflineFloatingLicense(cLeaseDuration)
+    return int(status)
+}
+
+/*
     FUNCTION: IncrementFloatingClientMeterAttributeUses()
 
     PURPOSE: Increments the meter attribute uses of the floating client.
@@ -357,7 +442,6 @@ func HasFloatingLicense() int {
     LF_E_INET, LF_E_LICENSE_NOT_FOUND, LF_E_CLIENT, LF_E_IP, LF_E_SERVER, LF_E_METER_ATTRIBUTE_USES_LIMIT_REACHED,
     LF_E_SERVER_LICENSE_NOT_ACTIVATED, LF_E_SERVER_TIME_MODIFIED, LF_E_SERVER_LICENSE_SUSPENDED,
     LF_E_SERVER_LICENSE_GRACE_PERIOD_OVER, LF_E_SERVER_LICENSE_EXPIRED
-
 */
 func IncrementFloatingClientMeterAttributeUses(name string, increment uint) int {
 	cName := goToCString(name)
