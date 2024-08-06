@@ -293,6 +293,23 @@ func RequestFloatingLicense() int {
 }
 
 /*
+    FUNCTION: GetFloatingClientLeaseExpiryDate()
+
+    PURPOSE: Gets the lease expiry date timestamp of the floating client.
+
+    PARAMETERS:
+    * leaseExpiryDate - pointer to the integer that receives the value
+
+    RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE
+*/
+func GetFloatingClientLeaseExpiryDate(leaseExpiryDate *uint) int {
+	var cLeaseExpiryDate C.uint
+	status := C.GetFloatingClientLeaseExpiryDate(&cLeaseExpiryDate)
+	*leaseExpiryDate = uint(cLeaseExpiryDate)
+	return int(status)
+}
+
+/*
     FUNCTION: DropFloatingLicense()
 
     PURPOSE: Sends the request to the LexFloatServer to free the license.
