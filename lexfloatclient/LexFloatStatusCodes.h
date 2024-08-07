@@ -212,9 +212,9 @@ enum LexFloatStatusCodes
     LF_E_MACHINE_FINGERPRINT = 66,
     
     /*
-    * CODE: LF_E_PROXY_NOT_TRUSTED
-    *
-    * MESSAGE: Request blocked due to untrusted proxy.
+        CODE: LF_E_PROXY_NOT_TRUSTED
+    
+        MESSAGE: Request blocked due to untrusted proxy.
     */
     LF_E_PROXY_NOT_TRUSTED = 67,
     
