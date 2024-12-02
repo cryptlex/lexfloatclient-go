@@ -26,6 +26,10 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	err = downloadFile(url, "libs/vc17/arm64/LexFloatClient.dll", basePath+"windows_arm64/LexFloatClient.dll")
+	if err != nil {
+		panic(err)
+	}
 	url = baseURL + libVersion + "/LexFloatClient-Static-Linux.zip"
 	err = downloadFile(url, "libs/gcc/amd64/libLexFloatClient.a", basePath+"linux_amd64/libLexFloatClient.a")
 	if err != nil {
