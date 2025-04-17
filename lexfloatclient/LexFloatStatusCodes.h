@@ -217,6 +217,20 @@ enum LexFloatStatusCodes
         MESSAGE: Request blocked due to untrusted proxy.
     */
     LF_E_PROXY_NOT_TRUSTED = 67,
+
+    /*
+        CODE: LF_E_ENTITLEMENT_SET_NOT_LINKED
+
+        MESSAGE: No entitlement set is linked to the license.
+    */
+    LF_E_ENTITLEMENT_SET_NOT_LINKED = 68,
+
+    /*
+        CODE: LF_E_FEATURE_ENTITLEMENT_NOT_FOUND
+
+        MESSAGE: The feature entitlement does not exist.
+    */
+    LF_E_FEATURE_ENTITLEMENT_NOT_FOUND = 69,
     
     /*
         CODE: LF_E_CLIENT

@@ -23,6 +23,10 @@ type HostConfig struct {
 	MaxOfflineLeaseDuration int `json:"maxOfflineLeaseDuration"`
 }
 
+type HostFeatureEntitlement struct {
+	FeatureName string `json:"featureName"`
+	Value       string `json:"value"`
+}
 
 type callbackType func(int)
 
@@ -157,7 +161,6 @@ func SetFloatingClientMetadata(key string, value string) int {
 
     PARAMETERS:
     * libraryVersion - pointer to a buffer that receives the value of the string
-    * length - size of the buffer pointed to by the libraryVersion parameter
 
     RETURN CODES: LF_OK, LF_E_BUFFER_SIZE
 */
@@ -175,7 +178,6 @@ func GetFloatingClientLibraryVersion(libraryVersion *string) int {
 
     PARAMETERS:
     * name - pointer to a buffer that receives the value of the string
-    * length - size of the buffer pointed to by the name parameter
 
     RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_PRODUCT_VERSION_NOT_LINKED, LF_E_BUFFER_SIZE
 */
@@ -193,7 +195,6 @@ func GetHostProductVersionName(name *string) int {
 
     PARAMETERS:
     * displayName - pointer to a buffer that receives the value of the string
-    * length - size of the buffer pointed to by the displayName parameter
 
     RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_PRODUCT_VERSION_NOT_LINKED, LF_E_BUFFER_SIZE
 */
@@ -213,7 +214,6 @@ func GetHostProductVersionDisplayName(displayName *string) int {
     * name - name of the feature flag
     * enabled - pointer to the integer that receives the value - 0 or 1
     * data - pointer to a buffer that receives the value of the string
-    * length - size of the buffer pointed to by the data parameter
 
     RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_PRODUCT_VERSION_NOT_LINKED, LF_E_FEATURE_FLAG_NOT_FOUND, LF_E_BUFFER_SIZE
 */
@@ -229,6 +229,83 @@ func GetHostProductVersionFeatureFlag(name string, enabled *bool, data *string) 
 }
 
 /*
+    FUNCTION: GetHostLicenseEntitlementSetName()
+
+    PURPOSE: Gets the name of the entitlement set associated with the LexFloatServer license.
+
+    PARAMETERS:
+    * name - pointer to a buffer that receives the value of the string
+
+    RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_BUFFER_SIZE, LF_E_ENTITLEMENT_SET_NOT_LINKED
+*/
+func GetHostLicenseEntitlementSetName(name *string) int {
+    var cName = getCArray()
+    status := C.GetHostLicenseEntitlementSetName(&cName[0], maxCArrayLength)
+    *name = ctoGoString(&cName[0])
+    return int(status)
+}
+
+/*
+    FUNCTION: GetHostLicenseEntitlementSetDisplayName()
+
+    PURPOSE: Gets the display name of the entitlement set associated with the LexFloatServer license.
+
+    PARAMETERS:
+    * displayName - pointer to a buffer that receives the value of the string
+
+    RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_BUFFER_SIZE, LF_E_ENTITLEMENT_SET_NOT_LINKED
+*/
+func GetHostLicenseEntitlementSetDisplayName(displayName *string) int {
+    var cDisplayName = getCArray()
+    status := C.GetHostLicenseEntitlementSetDisplayName(&cDisplayName[0], maxCArrayLength)
+    *displayName = ctoGoString(&cDisplayName[0])
+    return int(status)
+}
+
+/*
+    FUNCTION: GetHostFeatureEntitlements()
+
+    PURPOSE: Gets the feature entitlements associated with the LexFloatServer license.
+
+    PARAMETERS:
+    * hostFeatureEntitlements - pointer to a buffer that receives the value of an array of HostFeatureEntitlement structs
+
+    RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_BUFFER_SIZE
+*/
+func GetHostFeatureEntitlements(hostFeatureEntitlements *[]HostFeatureEntitlement) int {
+    var cHostFeatureEntitlements = getCArray()
+    hostFeatureEntitlementsJson := ""
+    status := C.GetHostFeatureEntitlementsInternal(&cHostFeatureEntitlements[0], maxCArrayLength)
+    hostFeatureEntitlementsJson = strings.TrimRight(ctoGoString(&cHostFeatureEntitlements[0]), "\x00")
+    if hostFeatureEntitlementsJson != "" {
+        json.Unmarshal([]byte(hostFeatureEntitlementsJson), hostFeatureEntitlements)
+    }
+    return int(status)
+}
+
+/*
+    FUNCTION: GetHostFeatureEntitlement()
+
+    PURPOSE: Get the value of the feature entitlement field associated with the LexFloatServer license.
+
+    PARAMETERS:
+    * name - name of the feature
+    * hostFeatureEntitlement - pointer to a buffer that receives the value of the HostFeatureEntitlement struct
+
+    RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_BUFFER_SIZE, LF_E_FEATURE_ENTITLEMENT_NOT_FOUND
+*/
+func GetHostFeatureEntitlement(name string, hostFeatureEntitlement *HostFeatureEntitlement) int {
+    cName := goToCString(name)
+    var cHostFeatureEntitlement = getCArray()
+    status := C.GetHostFeatureEntitlementInternal(cName, &cHostFeatureEntitlement[0], maxCArrayLength)
+    freeCString(cName)
+    hostFeatureEntitlementJson := strings.TrimRight(ctoGoString(&cHostFeatureEntitlement[0]), "\x00")
+    if hostFeatureEntitlementJson != "" {
+        json.Unmarshal([]byte(hostFeatureEntitlementJson), hostFeatureEntitlement)
+    }
+    return int(status)
+}
+/*
     FUNCTION: GetHostLicenseMetadata()
 
     PURPOSE: Get the value of the license metadata field associated with the LexFloatServer license.
@@ -236,7 +313,6 @@ func GetHostProductVersionFeatureFlag(name string, enabled *bool, data *string) 
     PARAMETERS:
     * key - key of the metadata field whose value you want to get
     * value - pointer to a buffer that receives the value of the string
-    * length - size of the buffer pointed to by the value parameter
 
     RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_BUFFER_SIZE,
     LF_E_METADATA_KEY_NOT_FOUND
@@ -405,8 +481,7 @@ func HasFloatingLicense() int {
 	This function sends a network request to LexFloatServer to get the configuration details.
 
 	PARAMETERS:
-	* hostConfig - pointer to a buffer that receives the value of the string
-	* length - size of the buffer pointed to by the hostConfigPtr parameter
+	* hostConfig - pointer to a buffer that receives the value of the HostConfig struct
 
 	RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_HOST_URL, LF_E_BUFFER_SIZE
 	LF_E_INET, LF_E_CLIENT, LF_E_IP, LF_E_SERVER
@@ -431,7 +506,6 @@ func GetHostConfig(hostConfig *HostConfig) int {
 
    PARAMETERS:
    * mode - pointer to a buffer that receives the value of the string
-   * length - size of the buffer pointed to by the value parameter
 
    RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_BUFFER_SIZE
 */
