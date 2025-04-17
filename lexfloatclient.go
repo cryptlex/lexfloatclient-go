@@ -160,7 +160,7 @@ func SetFloatingClientMetadata(key string, value string) int {
     PURPOSE: Gets the version of this library.
 
     PARAMETERS:
-    * libraryVersion - pointer to a buffer that receives the value of the string
+    * libraryVersion - pointer to a string that receives the value
 
     RETURN CODES: LF_OK, LF_E_BUFFER_SIZE
 */
@@ -177,7 +177,7 @@ func GetFloatingClientLibraryVersion(libraryVersion *string) int {
     PURPOSE: Gets the product version name.
 
     PARAMETERS:
-    * name - pointer to a buffer that receives the value of the string
+    * name - pointer to a string that receives the value
 
     RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_PRODUCT_VERSION_NOT_LINKED, LF_E_BUFFER_SIZE
 */
@@ -194,7 +194,7 @@ func GetHostProductVersionName(name *string) int {
     PURPOSE: Gets the product version display name.
 
     PARAMETERS:
-    * displayName - pointer to a buffer that receives the value of the string
+    * displayName - pointer to a string that receives the value
 
     RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_PRODUCT_VERSION_NOT_LINKED, LF_E_BUFFER_SIZE
 */
@@ -213,7 +213,7 @@ func GetHostProductVersionDisplayName(displayName *string) int {
     PARAMETERS:
     * name - name of the feature flag
     * enabled - pointer to the integer that receives the value - 0 or 1
-    * data - pointer to a buffer that receives the value of the string
+    * data - pointer to a string that receives the value
 
     RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_PRODUCT_VERSION_NOT_LINKED, LF_E_FEATURE_FLAG_NOT_FOUND, LF_E_BUFFER_SIZE
 */
@@ -234,7 +234,7 @@ func GetHostProductVersionFeatureFlag(name string, enabled *bool, data *string) 
     PURPOSE: Gets the name of the entitlement set associated with the LexFloatServer license.
 
     PARAMETERS:
-    * name - pointer to a buffer that receives the value of the string
+    * name - pointer to a string that receives the value
 
     RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_BUFFER_SIZE, LF_E_ENTITLEMENT_SET_NOT_LINKED
 */
@@ -251,7 +251,7 @@ func GetHostLicenseEntitlementSetName(name *string) int {
     PURPOSE: Gets the display name of the entitlement set associated with the LexFloatServer license.
 
     PARAMETERS:
-    * displayName - pointer to a buffer that receives the value of the string
+    * displayName - pointer to a string that receives the value
 
     RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_BUFFER_SIZE, LF_E_ENTITLEMENT_SET_NOT_LINKED
 */
@@ -268,7 +268,7 @@ func GetHostLicenseEntitlementSetDisplayName(displayName *string) int {
     PURPOSE: Gets the feature entitlements associated with the LexFloatServer license.
 
     PARAMETERS:
-    * hostFeatureEntitlements - pointer to a buffer that receives the value of an array of HostFeatureEntitlement structs
+    * hostFeatureEntitlements - pointer to an array of HostFeatureEntitlement structs that receives the value
 
     RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_BUFFER_SIZE
 */
@@ -290,7 +290,7 @@ func GetHostFeatureEntitlements(hostFeatureEntitlements *[]HostFeatureEntitlemen
 
     PARAMETERS:
     * name - name of the feature
-    * hostFeatureEntitlement - pointer to a buffer that receives the value of the HostFeatureEntitlement struct
+    * hostFeatureEntitlement - pointer to the HostFeatureEntitlement struct that receives the value
 
     RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_BUFFER_SIZE, LF_E_FEATURE_ENTITLEMENT_NOT_FOUND
 */
@@ -312,7 +312,7 @@ func GetHostFeatureEntitlement(name string, hostFeatureEntitlement *HostFeatureE
 
     PARAMETERS:
     * key - key of the metadata field whose value you want to get
-    * value - pointer to a buffer that receives the value of the string
+    * value - pointer to a string that receives the value
 
     RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_BUFFER_SIZE,
     LF_E_METADATA_KEY_NOT_FOUND
@@ -396,7 +396,7 @@ func GetFloatingClientMeterAttributeUses(name string, uses *uint) int {
 
     PARAMETERS:
     * key - key of the metadata field whose value you want to retrieve
-    * value - pointer to a buffer that receives the value of the string
+    * value - pointer to a string that receives the value
     
     RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_BUFFER_SIZE,
     LF_E_METADATA_KEY_NOT_FOUND
@@ -481,7 +481,7 @@ func HasFloatingLicense() int {
 	This function sends a network request to LexFloatServer to get the configuration details.
 
 	PARAMETERS:
-	* hostConfig - pointer to a buffer that receives the value of the HostConfig struct
+	* hostConfig - pointer to the HostConfig struct that receives the value
 
 	RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_HOST_URL, LF_E_BUFFER_SIZE
 	LF_E_INET, LF_E_CLIENT, LF_E_IP, LF_E_SERVER
@@ -505,7 +505,7 @@ func GetHostConfig(hostConfig *HostConfig) int {
    PURPOSE: Gets the mode of the floating license (online or offline).
 
    PARAMETERS:
-   * mode - pointer to a buffer that receives the value of the string
+   * mode - pointer to a string that receives the value
 
    RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_BUFFER_SIZE
 */
