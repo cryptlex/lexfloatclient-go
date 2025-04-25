@@ -24,8 +24,9 @@ type HostConfig struct {
 }
 
 type HostFeatureEntitlement struct {
-	FeatureName string `json:"featureName"`
-	Value       string `json:"value"`
+	FeatureName          string `json:"featureName"`
+	FeatureDisplayName   string `json:"featureDisplayName"`
+	Value                string `json:"value"`
 }
 
 type callbackType func(int)
