@@ -244,15 +244,31 @@ func GetHostFeatureEntitlements(hostFeatureEntitlements *[]HostFeatureEntitlemen
 //
 // Returns: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_BUFFER_SIZE, LF_E_FEATURE_ENTITLEMENT_NOT_FOUND
 func GetHostFeatureEntitlement(name string, hostFeatureEntitlement *HostFeatureEntitlement) int {
-    cName := goToCString(name)
-    var cHostFeatureEntitlement = getCArray()
-    status := C.GetHostFeatureEntitlementInternal(cName, &cHostFeatureEntitlement[0], maxCArrayLength)
-    freeCString(cName)
-    hostFeatureEntitlementJson := strings.TrimRight(ctoGoString(&cHostFeatureEntitlement[0]), "\x00")
-    if hostFeatureEntitlementJson != "" {
-        json.Unmarshal([]byte(hostFeatureEntitlementJson), hostFeatureEntitlement)
-    }
-    return int(status)
+	cName := goToCString(name)
+	var cHostFeatureEntitlement = getCArray()
+	status := C.GetHostFeatureEntitlementInternal(cName, &cHostFeatureEntitlement[0], maxCArrayLength)
+	freeCString(cName)
+	hostFeatureEntitlementJson := strings.TrimRight(ctoGoString(&cHostFeatureEntitlement[0]), "\x00")
+	if hostFeatureEntitlementJson != "" {
+		json.Unmarshal([]byte(hostFeatureEntitlementJson), hostFeatureEntitlement)
+	}
+	return int(status)
+}
+
+// GetHostProductMetadata gets the value of the field associated with the product-metadata key.
+//
+// Parameters:
+// - key: key of the metadata field whose value you want to get
+// - value: pointer to a string that receives the value
+//
+// Returns: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_BUFFER_SIZE, LF_E_METADATA_KEY_NOT_FOUND
+func GetHostProductMetadata(key string, value *string) int {
+	cKey := goToCString(key)
+	var cValue = getCArray()
+	status := C.GetHostProductMetadata(cKey, &cValue[0], maxCArrayLength)
+	*value = ctoGoString(&cValue[0])
+	freeCString(cKey)
+	return int(status)
 }
 
 // GetHostLicenseMetadata gets the value of the license metadata field associated with the LexFloatServer license.

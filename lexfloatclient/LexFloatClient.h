@@ -283,6 +283,21 @@ LEXFLOATCLIENT_API int LF_CC GetHostFeatureEntitlementsInternal(STRTYPE hostFeat
 LEXFLOATCLIENT_API int LF_CC GetHostFeatureEntitlementInternal(CSTRTYPE featureName, STRTYPE hostFeatureEntitlementJson, uint32_t length);
 
 /*
+    FUNCTION: GetHostProductMetadata()
+
+    PURPOSE: Gets the value of the field associated with the product-metadata key.
+
+    PARAMETERS:
+    * key - key of the metadata field whose value you want to get
+    * value - pointer to a buffer that receives the value of the string
+    * length - size of the buffer pointed to by the value parameter
+
+    RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_BUFFER_SIZE,
+    LF_E_METADATA_KEY_NOT_FOUND
+*/
+LEXFLOATCLIENT_API int LF_CC GetHostProductMetadata(CSTRTYPE key, STRTYPE value, uint32_t length);
+
+/*
     FUNCTION: GetHostLicenseMetadata()
 
     PURPOSE: Get the value of the license metadata field associated with the LexFloatServer license.
