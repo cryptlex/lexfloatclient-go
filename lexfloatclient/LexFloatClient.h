@@ -285,7 +285,7 @@ LEXFLOATCLIENT_API int LF_CC GetHostFeatureEntitlementInternal(CSTRTYPE featureN
 /*
     FUNCTION: GetHostProductMetadata()
 
-    PURPOSE: Gets the value of the field associated with the product-metadata key.
+    PURPOSE: Gets the value of the product metadata.
 
     PARAMETERS:
     * key - key of the metadata field whose value you want to get

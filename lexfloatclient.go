@@ -255,7 +255,7 @@ func GetHostFeatureEntitlement(name string, hostFeatureEntitlement *HostFeatureE
 	return int(status)
 }
 
-// GetHostProductMetadata gets the value of the field associated with the product-metadata key.
+// GetHostProductMetadata gets the value of the product metadata.
 //
 // Parameters:
 // - key: key of the metadata field whose value you want to get
