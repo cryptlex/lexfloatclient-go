@@ -27,6 +27,7 @@ type HostFeatureEntitlement struct {
 	FeatureName          string `json:"featureName"`
 	FeatureDisplayName   string `json:"featureDisplayName"`
 	Value                string `json:"value"`
+	ExpiresAt            uint   `json:"expiresAt"`
 }
 
 type callbackType func(int)
