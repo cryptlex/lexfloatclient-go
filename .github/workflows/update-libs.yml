@@ -41,7 +41,7 @@ jobs:
         commit-message: "chore(native libs): updated version"
         body: |
           Automated native libs version bump.
-        base: master
+        base: main
         add-paths: |
           ./libs
           ./download_libs/download_libs.go
