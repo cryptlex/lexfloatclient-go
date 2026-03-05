@@ -248,6 +248,18 @@ LEXFLOATCLIENT_API int LF_CC GetHostLicenseEntitlementSetName(STRTYPE name, uint
 LEXFLOATCLIENT_API int LF_CC GetHostLicenseEntitlementSetDisplayName(STRTYPE displayName, uint32_t length);
 
 /*
+    FUNCTION: GetHostLicenseEntitlementSetTier
+
+    PURPOSE: Gets the tier of the entitlement set associated with the LexFloatServer license.
+
+    PARAMETERS:
+    * tier - pointer to the integer that receives the value
+
+    RETURN CODES: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_ENTITLEMENT_SET_NOT_LINKED
+*/
+LEXFLOATCLIENT_API int LF_CC GetHostLicenseEntitlementSetTier(int64_t *tier);
+
+/*
     FUNCTION: GetHostFeatureEntitlementsInternal()
 
     PURPOSE: Gets the feature entitlements associated with the LexFloatServer license.
