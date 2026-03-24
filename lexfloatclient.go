@@ -220,6 +220,19 @@ func GetHostLicenseEntitlementSetDisplayName(displayName *string) int {
     return int(status)
 }
 
+// GetHostLicenseEntitlementSetTier gets the tier of the entitlement set associated with the LexFloatServer license.
+//
+// Parameters:
+// - tier: pointer to a string that receives the value
+//
+// Returns: LF_OK, LF_E_PRODUCT_ID, LF_E_NO_LICENSE, LF_E_ENTITLEMENT_SET_NOT_LINKED
+func GetHostLicenseEntitlementSetTier(tier *int64) int {
+    var cTier C.int64_t
+    status := C.GetHostLicenseEntitlementSetTier(&cTier)
+    *tier = int64(cTier)
+    return int(status)
+}
+
 // GetHostFeatureEntitlements gets the feature entitlements associated with the LexFloatServer license.
 //
 // Parameters:
