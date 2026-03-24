@@ -280,7 +280,14 @@ enum LexFloatStatusCodes
 
         MESSAGE: The grace period for server license is over.
     */
-    LF_E_SERVER_LICENSE_GRACE_PERIOD_OVER = 76
+    LF_E_SERVER_LICENSE_GRACE_PERIOD_OVER = 76,
+
+    /*
+        CODE: LF_E_LEASE_EXCEEDS_SERVER_LICENSE_EXPIRY
+
+        MESSAGE: Requested offline lease duration exceeds server license expiry date.
+    */
+    LF_E_LEASE_EXCEEDS_SERVER_LICENSE_EXPIRY = 77
 };
 
 #endif // LEX_FLOAT_STATUS_CODES_H
