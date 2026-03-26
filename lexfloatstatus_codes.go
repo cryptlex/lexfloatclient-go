@@ -126,4 +126,7 @@ const (
 
     // The grace period for server license is over.
     LF_E_SERVER_LICENSE_GRACE_PERIOD_OVER int = 76
+
+    // Requested offline lease duration exceeds server license expiry date.
+    LF_E_LEASE_EXCEEDS_SERVER_LICENSE_EXPIRY int = 77
 )
