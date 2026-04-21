@@ -36,6 +36,11 @@ func main() {
 		log.Fatal(err)
 		panic(err)
 	}
+	err = downloadFile(url, "THIRD-PARTY-NOTICES.txt", basePath+"THIRD-PARTY-NOTICES.txt")
+	if err != nil {
+		log.Fatal(err)
+		panic(err)
+	}
 	fmt.Println("LexFloatClient libs downloaded successfully!")
 }
 
